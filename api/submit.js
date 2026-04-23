@@ -12,7 +12,7 @@ export default async function handler(req, res) {
   const { txnId, luckyName, submittedAt } = req.body;
   if (!txnId || !luckyName) return res.status(400).json({ error: "Missing fields" });
 
-  const client = new MongoClient(uri);
+  const client = new MongoClient(uri, { tls: true, tlsAllowInvalidCertificates: false, serverSelectionTimeoutMS: 5000 });
   try {
     await client.connect();
     const db = client.db("phonepe");
