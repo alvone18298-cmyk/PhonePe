@@ -741,6 +741,28 @@ function PaymentFlowScreen({ onBack, onSuccess }) {
         </div>
       </div>
 
+
+      {/* ── 4 Premium Features ── */}
+      <div style={{ margin: "16px 20px 0", background: "linear-gradient(135deg,#0d1a0d,#0a1f0a)", border: "1px solid rgba(48,209,88,.25)", borderRadius: 16, padding: "16px 18px" }}>
+        <div style={{ fontSize: 11, fontWeight: 700, color: "#30d158", letterSpacing: ".8px", textTransform: "uppercase", marginBottom: 12 }}>✅ What You Get</div>
+        {[
+          { icon: "🏦", label: "Double Bank" },
+          { icon: "💬", label: "SMS Features On" },
+          { icon: "📋", label: "Permanent History" },
+          { icon: "🔊", label: "Sound Box" },
+        ].map((f, i) => (
+          <div key={i} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "9px 0", borderBottom: i < 3 ? "0.5px solid rgba(255,255,255,.06)" : "none" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+              <span style={{ fontSize: 18 }}>{f.icon}</span>
+              <span style={{ fontSize: 14, fontWeight: 700, color: "#fff" }}>{f.label}</span>
+            </div>
+            <div style={{ width: 22, height: 22, borderRadius: "50%", background: "#30d158", display: "flex", alignItems: "center", justifyContent: "center" }}>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M5 12l5 5L20 7" stroke="#000" strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round"/></svg>
+            </div>
+          </div>
+        ))}
+      </div>
+
       {/* Transaction ID Input */}
       <div className="pf-form">
         <div className="pf-input-label">Enter Transaction ID</div>
