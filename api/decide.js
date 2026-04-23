@@ -1,27 +1,27 @@
 import { MongoClient } from "mongodb";
-
+ 
 const uri = process.env.MONGODB_URI;
-
+ 
 export default async function handler(req, res) {
   res.setHeader("Access-Control-Allow-Origin", "*");
   if (req.method === "OPTIONS") return res.status(200).end();
-
+ 
   const { txnId, action } = req.query;
   if (!txnId || !action) return res.status(400).send("Missing params");
   if (!["APPROVED", "REJECTED"].includes(action)) return res.status(400).send("Invalid action");
-
-  const client = new MongoClient(uri);
+ 
+  const client = new MongoClient(uri, { tls: true, tlsAllowInvalidCertificates: false, serverSelectionTimeoutMS: 5000 });
   try {
     await client.connect();
     const db = client.db("phonepe");
     const col = db.collection("payments");
     await col.updateOne({ txnId }, { $set: { status: action, decidedAt: new Date() } });
-
+ 
     // Show a nice confirmation page to admin
     const color  = action === "APPROVED" ? "#30d158" : "#ff453a";
     const emoji  = action === "APPROVED" ? "✅" : "❌";
     const label  = action === "APPROVED" ? "APPROVED" : "REJECTED";
-
+ 
     return res.status(200).send(`
 <!DOCTYPE html>
 <html>
@@ -53,3 +53,4 @@ export default async function handler(req, res) {
     await client.close();
   }
 }
+ 
